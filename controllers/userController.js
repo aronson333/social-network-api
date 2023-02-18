@@ -8,7 +8,7 @@ const userController = {
         res.json(userData);
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
         res.status(500).json(err);
       });
   },
@@ -58,37 +58,34 @@ const userController = {
           : res.json(userData);
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
         res.status(500).json(err);
       });
   },
   // Delete a user
-  deleteUser(req, res) {
-    User.findOneAndDelete({
-      _id: req.params.userId,
-    }).then((userData) =>
-      !userData
-        ? res.status(404).json({
-            message: "No such user exists. It is possible they were adopted.",
-          })
-        : //     res.json(userData)
-          // )
-          // delete thoughts
-          Thought.deleteMany({
-            _id: {
-              $in: userData.thoughts,
-            },
-          })
-            .then(() => {
-              res.json({
-                message: "Gone but not forgotten.",
-              });
-            })
-            .catch((err) => {
-              console.log(err);
-              res.status(500).json(err);
-            })
-    );
+  async deleteUser(req, res) {
+    try {
+      const userData = User.findOneAndDelete({
+        _id: req.params.userId,
+      });
+
+      if (!userData) {
+        return res.status(404).json({
+          message: "No such user exists. It is possible they were adopted.",
+        });
+      }
+
+      await Thought.deleteMany({
+        _id: {
+          $in: userData.thoughts,
+        },
+      });
+
+      res.json({ message: `User(${req.params.userId}) deleted` });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json(err);
+    }
   },
   // Add a friend
   addFriend(req, res) {
@@ -111,12 +108,10 @@ const userController = {
               message:
                 "No user with this id. Can I interest you in sponsoring a duck?",
             })
-          : res.json({
-              message: "Friended!",
-            });
+          : res.json(userData);
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
         return res.status(500).json(err);
       });
   },
@@ -142,12 +137,10 @@ const userController = {
               message:
                 "No user with this id. Have you checked out our merch store?",
             })
-          : res.json({
-              message: "Unfriended. That's too bad.",
-            })
+          : res.json(userData)
       )
       .catch((err) => {
-        console.log(err);
+        console.error(err);
         res.status(500).json(err);
       });
   },
