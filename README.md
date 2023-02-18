@@ -1,5 +1,11 @@
 # 18 NoSQL: Social Network API
 
+## Demo
+
+Here is the link to local demo recording of the application
+
+[Demo](./homework18-recording.mp4)
+
 ## Your Task
 
 MongoDB is a popular choice for many social networks due to its speed with large amounts of data and flexibility with unstructured data. Over the last part of this course, you’ll use several of the technologies that social networking platforms use in their full-stack applications. Because the foundation of these applications is data, it’s important that you understand how to build and structure the API first.
@@ -227,7 +233,7 @@ This Challenge is graded based on the following criteria:
   * The walkthrough video must show all of the technical acceptance criteria being met.
 
   * The walkthrough video must demonstrate how to start the application’s server.
-
+****
   * The walkthrough video must demonstrate GET routes for all users and all thoughts being tested in Insomnia.
 
   * The walkthrough video must demonstrate GET routes for a single user and a single thought being tested in Insomnia.
